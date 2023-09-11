@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!------ Include the above in your HEAD tag ---------->
+    <title>Login Form</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Custom styles */
+        .centered-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form{width:500px;height:600px}
+    </style>
+</head>
+<body style="background-color: #D8CEF6">
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="centered-form" id="login">
+
+    <form method="post">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% else %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% csrf_token %}
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid justify-content-center">
+                <a class="navbar-brand" href="#"><b>Login Form</b></a>
+            </div>
+        </nav>
+        <div class="mb-3">
+            <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="emailHelp" >
+        </div>
+        <div class="mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    <p>
+        <a href="{% url "register" %}">Create Account</a>
+    </p>
+    </form>
+</div>
+</body>
+</html>

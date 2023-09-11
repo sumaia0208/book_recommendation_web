@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Form</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<!--  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<!--  <link href="{% static 'style.css' %}" rel="stylesheet">-->
+  <style>
+    .centered-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form{width:500px;height:600px} 
+  </style>
+</head>
+<body style="background-color: #A9F5F2">
+
+
+<div class="centered-form" id="login">
+
+  <form method="post">
+      {% if messages %}
+          {% for message in messages %}
+              {% if message.tags == 'error' %}
+                  <div class="alert alert-danger">{{ message }}</div>
+              {% else %}
+                  <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+              {% endif %}
+          {% endfor %}
+      {% endif %}
+    {% csrf_token %}
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid justify-content-center">
+        <a class="navbar-brand" href="#"><b>Register Form</b></a>
+      </div>
+    </nav>
+      <div class="mb-3">
+          <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="emailHelp">
+      </div>
+    <div class="mb-3">
+      <input type="email" name="email" class="form-control" placeholder="Email" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+      <input type="password" name="password" class="form-control" placeholder="Password">
+    </div>
+    <div class="mb-3">
+      <input type="password" name="cpassword" class="form-control" placeholder="Confirm Password">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+      <p>
+          <a href="{% url "login" %}">Login</a>
+      </p>
+  </form>
+</div>
+</body>
+</html>
