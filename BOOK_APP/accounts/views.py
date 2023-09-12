@@ -54,7 +54,7 @@ def login(request):
         # check user existence, must user exist
         if user is not None:
             user_login(request, user)
-            return redirect('task_home')
+            return redirect('search_book')
         else: messages.error(request, "Logged in failed!")
     return render(request, 'login.html')
 
