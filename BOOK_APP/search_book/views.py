@@ -4,13 +4,14 @@ from django.views import View
 
 
 def get_free_books(query):
-    url = f"https://www.googleapis.com/books/v1/volumes?q={query}&filter=free-ebooks&subject:programming&maxResults=10"
-    response = requests.get(url)
+    if query:
+        base_url = "http://openlibrary.org/search.json"
+        params = {"title": query}
 
-    if response.status_code == 200:
-        return response.json()
-    else:
-        return None
+        response = requests.get(base_url, params=params)
+        data = response.json()
+        return data
+    else: return None
 
 
 # Create your views here.
@@ -19,7 +20,15 @@ class SearchBook(View):
     def get(self, request):
         if request.user.is_authenticated:
             query = request.GET.get("title")
-            result = get_free_books(query).get("items")
-            return render(request, 'search_book.html', context={"books": result if query else None})
+            result = get_free_books(query)
+
+            book_list = list()
+            if not result:
+                return render(request, 'search_book.html', context={"books": None})
+
+            for data in result.get("docs")[:10]:
+                book_list.append({"title": data.get("title", None), "author_name": data.get("author_name")[0]})
+            return render(request, 'search_book.html', context={"books": book_list})
+
         else:
             return redirect("login")
